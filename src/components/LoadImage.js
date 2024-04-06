@@ -19,7 +19,6 @@ export default class LoadImage extends Component {
    }
 
    fallbackError() {
-      console.log('error img');
       this.setState({
          isLoadError: true,
       });

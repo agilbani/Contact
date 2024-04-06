@@ -73,7 +73,6 @@ const AddContact: React.FC<props> = ({navigation, route}) => {
    };
 
    const toLaunchImageGallery = async () => {
-      console.log('galery');
       getFromLibrary();
    };
 
@@ -84,7 +83,6 @@ const AddContact: React.FC<props> = ({navigation, route}) => {
          } else if (response.error) {
             //   console.log('ImagePicker Error: ', response.error);
          } else {
-            console.log('response img camera', response);
             setPhoto(`data:image/png;base64,${response.assets[0].base64}`)
          }
       });
@@ -93,13 +91,10 @@ const AddContact: React.FC<props> = ({navigation, route}) => {
       launchImageLibrary(options, (response) => {
          if (response.didCancel) {
             //   console.log('User cancelled image picker');
-            console.log('cancel', response);
             
          } else if (response.error) {
             //   console.log('ImagePicker Error: ', response.error);
-            console.log('err', response);
          } else {
-            console.log('response img camera', response);
             setPhoto(`data:image/png;base64,${response.assets[0].base64}`)
          }
       });
@@ -115,8 +110,23 @@ const AddContact: React.FC<props> = ({navigation, route}) => {
       }
       const postContact = await API.postContact(dispatch, body);
       LoadingManager.hide();
-      console.log('cek postContact', postContact);
-      
+      if (postContact === 200 || postContact === 201) {
+         ToastAndroid.showWithGravityAndOffset(
+            "New Contact has been added",
+            ToastAndroid.LONG,
+            ToastAndroid.BOTTOM,
+            25,
+            50,
+         );
+      } else {
+         ToastAndroid.showWithGravityAndOffset(
+            'Server error, try again later',
+            ToastAndroid.LONG,
+            ToastAndroid.BOTTOM,
+            25,
+            50,
+         );
+      }
    }
 
    const validation = () => {
@@ -139,7 +149,6 @@ const AddContact: React.FC<props> = ({navigation, route}) => {
       const id = `${route.params.id}`;
       const detailContact = await API.getContactById(dispatch, id);
       LoadingManager.hide();
-      console.log('cek detail kontak', detailContact);
       if (detailContact) {
          if (detailContact.payload?.data) {
             const contact = detailContact.payload.data;
@@ -163,7 +172,6 @@ const AddContact: React.FC<props> = ({navigation, route}) => {
       }
       const res = await API.editContact(dispatch, body, id);
       LoadingManager.hide();
-      console.log('res edit contact', res);
       if (res === 200 || res === 201) {
          ToastAndroid.showWithGravityAndOffset(
             "Edit data success",
@@ -174,7 +182,7 @@ const AddContact: React.FC<props> = ({navigation, route}) => {
          );
       } else {
          ToastAndroid.showWithGravityAndOffset(
-            'Server error, trya again later',
+            'Server error, try again later',
             ToastAndroid.LONG,
             ToastAndroid.BOTTOM,
             25,
@@ -188,7 +196,6 @@ const AddContact: React.FC<props> = ({navigation, route}) => {
       const id = `${route.params.id}`;
       const res = await API.deleteContact(id);
       LoadingManager.hide();
-      console.log('res delete', res);
       if (res === 200 || res === 201) {
          ToastAndroid.showWithGravityAndOffset(
             "Delete data success",
@@ -199,7 +206,7 @@ const AddContact: React.FC<props> = ({navigation, route}) => {
          );
       } else {
          ToastAndroid.showWithGravityAndOffset(
-            'Server error, trya again later',
+            'Server error, try again later',
             ToastAndroid.LONG,
             ToastAndroid.BOTTOM,
             25,

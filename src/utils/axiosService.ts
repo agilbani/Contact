@@ -32,7 +32,7 @@ export default {
          body: params,
          params: {},
       })
-         .then((response) => response.data)
+         .then((response) => response.status)
          .catch((err) => {
             console.log('err service', err);
             return err;

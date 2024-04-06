@@ -23,14 +23,12 @@ const Home: React.FC<props> = ({navigation}) => {
       LoadingManager.show();
       const dataContact = await API.getContact(dispatch);
       LoadingManager.hide();
-      console.log('cek dataContact', dataContact);
       // dispatch(getContact());
    }
 
    React.useEffect(() => {
       getData();
    },[isFocused]);
-   console.log('cek data home', data);
    
    return (
       <View style={styles.container}>
